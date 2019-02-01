@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+## INPUTS
+# Number of individuals
+Nind=128
+
+## DATA ADQUISITION
+# Receive the desired generation as input
+gen=$1
+
+## NEW SEARCH SPACE PARAMETERS
+# Update the individuals of the new population with the new search space variables
+ind=0
+until [ $ind -gt $(($Nind-1)) ]
+do
+	# TODO: apply the new population changes with some function or Python script
+	var=$(sed -n ${ind+1}p "./gen$gen/pop")
+	wait;
+	# echo ".## Applying the changes to the individual $ind ..."
+	((ind++))
+done
+
+## FITNESS
+# Once results are obtained, get a file will all fitness
+python3 fitness.py $gen &
+wait;
+echo -e ".## \033[1mFitness\033[0m calculation for generation $gen ... "
