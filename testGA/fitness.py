@@ -17,7 +17,7 @@ var = np.genfromtxt('./gen%i/pop' %(gen))
 
 # Loop over all individuals
 for ind in range(Nind):
-	# Get the lift, drag and area values for each individual
+	# Get the variables for each individual
     f1 = var[ind,0]**2
     f2 = (var[ind,0]-2)**2
     # Save the values of the search space and the function value toghether in a file
