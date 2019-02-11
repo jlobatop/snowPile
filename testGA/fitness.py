@@ -18,11 +18,11 @@ var = np.genfromtxt('./gen%i/pop' %(gen))
 # Loop over all individuals
 for ind in range(Nind):
 	# Get the lift, drag and area values for each individual
-    cDi = var[ind,0]**2
-    Mr = (var[ind,0]-2)**2
+    f1 = var[ind,0]**2
+    f2 = (var[ind,0]-2)**2
     # Save the values of the search space and the function value toghether in a file
     with open('./data/gen%i.txt' %gen, 'a') as file:
         for i in range(Nvar):
             file.write("%.6f, " %(var[ind,i]))
-        file.write("%.6f, " %(cDi))
-        file.write("%.6f \n" %(Mr))
+        file.write("%.6f, " %(f1))
+        file.write("%.6f \n" %(f2))
