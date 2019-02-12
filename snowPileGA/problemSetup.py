@@ -11,7 +11,7 @@ Nvar = 7
 Nind = 2**Nvar
 # search spaces limits
 var_low = np.array([20,0.2,0.5,0.001,0.05,0,0])
-var_high = np.array([60,10,5,0.1,0.2,1,1])
+var_high = np.array([90,10,5,0.1,0.2,1,1])
 # comparison mode for search space limits (row per each one of the variables,
 # first row is for the low limit and the second row in for the high limit)
 compMode = [['leq', 'geq'],
