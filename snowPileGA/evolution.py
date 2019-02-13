@@ -493,7 +493,7 @@ for i in range(Nind):
         boolMat = constrainedPts(children, var_low, var_high, compMode)
         # ... are replaced with random numbers
         for i in np.argwhere(boolMat == True):
-            children[i,:] = (var_low+np.random.rand(1)*(var_high-var_low)).T
+            children[i,:] = (var_low+np.random.rand(len(var_high))*(var_high-var_low)).T
 
 # Children matrix will be saved as the execution data for next generation
 np.savetxt('./gen%i/pop' %(gen+1), children[:,:], fmt='%.8f', delimiter=' ')

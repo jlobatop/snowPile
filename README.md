@@ -38,7 +38,7 @@ Now that the case has been defined and the optimization GA has been checked, it 
 
 ## 3. [<tt> snowPileGA</tt> folder](https://github.com/jlobatop/snowPile/tree/master/snowPileGA)
 In the [<tt> snowPile_notebook</tt>](https://github.com/jlobatop/snowPile/blob/master/snowPile_notebook.ipynb) notebook, some of the optimization variables have been discussed, such as the angle, base length or height of the trapezoidal prism. However, when including the heat analysis, there are some variables that will depend on the choice of the insulator layer (such as the material properties and also its dimensions). Therefore, the whole search space is based in:
-* trapezoid angle (alpha) in [20º ,90º]
+* trapezoid angle (alpha) in [20º ,60º]
 * trapezoid base (b) in [0.2m, 10m]
 * trapezoid height (H) in [0.5m, 5m]
 * insulator thickness (tins) in [0.001m, 0.1m]
@@ -50,13 +50,14 @@ The ground conditions and weather conditions were fixed for all possible snow pi
 * Sum of total heat: the more heat loss, the more probabilities of snow melting
 * Air surface of the snow pile: which is, indeed, similar to the cost of insulating the whole pile
 
-These variables were included in the <tt> fitness.py</tt> file, modifying also the <tt> problemSetup.py</tt> with the ranges of the search space. The optimization process consisted on 250 generations with 128 individuals in each one (computing for each one all the temperatures and heats in the initial [<tt> snowPile_notebook</tt>](https://github.com/jlobatop/snowPile/blob/master/snowPile_notebook.ipynb), accounting for 32000 evaluations). As before, the results were stored in its generation folder and then analyzed with the [<tt> snowPileGA.ipynb</tt>](https://github.com/jlobatop/snowPile/blob/master/snowPileGA/snowPileGA.ipynb) notebook. The resulting Pareto Front can be seen in the next figure:
+These variables were included in the <tt> fitness.py</tt> file, modifying also the <tt> problemSetup.py</tt> with the ranges of the search space. The optimization process consisted on 200 generations with 128 individuals in each one (computing for each one all the temperatures and heats in the initial [<tt> snowPile_notebook</tt>](https://github.com/jlobatop/snowPile/blob/master/snowPile_notebook.ipynb), accounting for 25600 evaluations). As before, the results were stored in its generation folder and then analyzed with the [<tt> snowPileGA.ipynb</tt>](https://github.com/jlobatop/snowPile/blob/master/snowPileGA/snowPileGA.ipynb) notebook. Opposed to what was expected (as it can be denoted by the use of a multiobjective GA), there is not a clear Pareto front, which is good news! There is an optimum point that has both a small total heat transfer at the same time as a reduced surface in contact with the air (minimizing insulation costs).
 
 ![pileGAresults](https://raw.githubusercontent.com/jlobatop/snowPile/master/images/pileGA.png)
 
+This solution may seem a little disapointing compared with the fancy function space of the Schaffer function N.1. Moreover, in real life situations, there is almost never a true only optimum point. Therefore, it can be stated that either the model has been oversimplified or the objective functions were not properly chosen.
+
 ## Possible upgrades
-While writing the code and the analysis, some possible developments were seen and they are listed below:
-* More generation in the genetic algorithm will surely provide a more detailed Pareto front, given that the obtained one is not as expanded as it should
+Some possible developments to solve the different issues encountered and mentioned above are listed:
 * Include the computation of the Reynolds number for each individual separately, as some sample Reynolds number was selected (via the convective heat transfer coefficient) for all individuals, regardless their actual dimensions to reduce the computational time of the genetic algorithm
 * Using a more realistic shape, such as a truncated pyramid with the use of the angle β as proposed in the original assignment
 * Create a freezing model that reduces (or increases) the volume of the snow pile depending on the direction of the heat. This will increase the computation effort and complexity of the model

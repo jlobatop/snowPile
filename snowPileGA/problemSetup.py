@@ -11,7 +11,7 @@ Nvar = 7
 Nind = 2**Nvar
 # search spaces limits
 var_low = np.array([20,0.2,0.5,0.001,0.05,0,0])
-var_high = np.array([90,10,5,0.1,0.2,1,1])
+var_high = np.array([60,10,5,0.1,0.2,1,1])
 # comparison mode for search space limits (row per each one of the variables,
 # first row is for the low limit and the second row in for the high limit)
 compMode = [['leq', 'geq'],
@@ -42,21 +42,24 @@ def constrainedPts(points, var_low, var_high, compMode):
     """
 
     # preallocate a matrix to analyze out-of-bound points with 'points' shape
-    boolMat = np.zeros((points.shape))
+    # for the low limit
+    boolMatLo = np.zeros((points.shape))
+    # for the high limit
+    boolMatHi = np.zeros((points.shape))
 
     # get the points that are valid under the constraints
     for i in range(Nvar):
         # upper limit comparison
         # lower or equal to the high limit
         if compMode[i][0] == 'leq':
-            boolMat[:,i] = np.logical_or(points[:,i] < var_high[i],
+            boolMatHi[:,i] = np.logical_or(points[:,i] < var_high[i],
                                          points[:,i] == var_high[i])
         # lower to the high specified limit
         elif compMode[i][0] == 'less':
-            boolMat[:,i] = np.logical_or(points[:,i] < var_high[i])
+            boolMatHi[:,i] = np.logical_or(points[:,i] < var_high[i])
         # strictly equal to the high specified limit (be careful!)
         elif compMode[i][0] == 'eq':
-            boolMat[:,i] = np.logical_or(points[:,i] == var_low[i])
+            boolMatHi[:,i] = np.logical_or(points[:,i] == var_low[i])
         # error if specified differently
         else:
             raise RuntimeError('Bad comparison mode matrix')
@@ -64,17 +67,20 @@ def constrainedPts(points, var_low, var_high, compMode):
         # lower limit comparison
         # greater or equal to the lower limit
         if compMode[i][1] == 'geq':
-            boolMat[:,i] = np.logical_or(points[:,i] > var_low[i],
+            boolMatLo[:,i] = np.logical_or(points[:,i] > var_low[i],
                                          points[:,i] == var_low[i])
         # greater than the high limit
         elif compMode[i][1] == 'greater':
-            boolMat[:,i] = np.logical_or(points[:,i] > var_low[i])
+            boolMatLo[:,i] = np.logical_or(points[:,i] > var_low[i])
         # strictly equal to the high specified limit (be careful!)
         elif compMode[i][1] == 'eq':
-            boolMat[:,i] = np.logical_or(points[:,i] == var_low[i])
+            boolMatLo[:,i] = np.logical_or(points[:,i] == var_low[i])
         # error if specified differently
         else:
             raise RuntimeError('Bad comparison mode matrix')
+
+    # combine both the low and high boolean matrices
+    boolMat = np.logical_and(boolMatHi,boolMatLo)
 
     # once all the comparisons are made, the output should be an AND array where
     # all the conditions are met by each one of the individuals

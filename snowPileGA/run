@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## INPUTS (modify before simulation):
-genLim=250
+genLim=200
 ## GENETIC ALGORITHM LOOP
 # Create a variable to know the current generation
 gen=0
